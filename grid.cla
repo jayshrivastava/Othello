@@ -1,0 +1,155 @@
+unit
+class Grid
+
+
+export drawGrid, eraseGrid, fromPoints, setRC, getRow, getCol, getHeight, getWidth, setHW, setColor, setStartxy, setBG, inside, centerCell
+
+    var startx, starty : int := 1
+    var row, col : int := 4
+    var xsize, ysize : int := 50
+    starty := 1
+    var colorv : int := 1
+    var bgcolor : int := 31
+    
+    function getRow : int
+	
+	result row
+    
+    end getRow
+    
+    
+    function getCol: int
+    
+	result col
+    
+    end getCol
+    
+    function getHeight : int
+    
+	result ysize
+    
+    end getHeight
+    
+    function getWidth : int
+    
+	result xsize
+    
+    end getWidth
+    
+
+    procedure setRC (r, c : int)
+    
+	row := r
+	col := c
+    
+    end setRC
+    
+    procedure setBG (c : int)
+	bgcolor := c
+    end setBG
+
+    procedure setHW (h, w : int)
+    
+	xsize := w
+	ysize := h
+    
+    end setHW
+    
+    procedure setColor (color : int)
+    
+	colorv := color
+    
+    end setColor
+    
+    procedure setStartxy (x, y : int)
+
+	startx := x
+	starty := y 
+
+    end setStartxy
+    
+    procedure drawGrid
+
+	var x, y : int
+	x := startx
+	y := starty
+	var counter : int := 0
+	var counter2 : int := 0
+
+	  Draw.FillBox (startx, starty, startx + (xsize * col), starty + (ysize * col), bgcolor)
+	
+	loop
+
+	    exit when counter2 = row
+
+	    counter := 0
+	    loop
+		exit when counter = col
+
+		Draw.Box (x, y, x + xsize, y + ysize, colorv)
+		x := x + xsize
+
+		counter := counter + 1
+
+	    end loop
+
+	    y := y + ysize
+	    x := startx
+	    counter2 := counter2 + 1
+
+	end loop
+
+    end drawGrid
+    
+    procedure eraseGrid
+    
+	colorv := colorbg
+	drawGrid
+	
+    end eraseGrid 
+    
+    function inside (x, y : int) : boolean
+    
+	var inside : boolean := true
+    
+	var xrangetop: int := startx + (xsize * col)
+	var xrangebot: int := startx
+    
+	var yrangebot : int := starty
+	var yrangetop : int := starty + (ysize * row)
+    
+	if x < xrangebot or x > xrangetop then 
+	   inside := false
+	end if
+	if y < yrangebot or y > yrangetop then 
+	   inside := false
+	end if
+    
+	result inside  
+    
+    end inside
+    
+    procedure fromPoints (x, y : int, var row1, col1 : int)
+    
+	var yrange : int := y - starty
+	var xrange : int := x - startx
+	 
+	row1 := yrange div ysize + 1
+	
+	col1 := xrange div xsize + +1
+    
+    end fromPoints
+    
+    procedure centerCell (r, c : int, var x, y : int)
+    
+    var xdistance : int := xsize * (c) - (xsize div 2)
+    var ydistance : int := ysize * (r) - (xsize div 2)  
+    
+    x := startx + xdistance
+    y := starty + ydistance   
+    
+    end centerCell
+
+end Grid
+
+
